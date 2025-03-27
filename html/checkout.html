@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Store - Thanh Toán</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/jquery-3.7.1.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/PcStore.js"></script>
+    <style>
+        .checkout-page {
+            padding: 100px 5% 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+        .checkout-form, .order-summary {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .order-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .order-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .item-info {
+            flex: 1;
+        }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 0.5rem 0;
+        }
+        .total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-top: 2px solid #ddd;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        .place-order-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .place-order-btn:hover {
+            background-color: #0056b3;
+        }
+        .payment-methods {
+            margin: 1rem 0;
+        }
+        .payment-method {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+        }
+        @media (max-width: 968px) {
+            .checkout-page {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 576px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .full-height {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="full-height">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">PC Store</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="home.html">Trang chủ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="cart.html">Giỏ hàng</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">Giới thiệu</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
+                    </ul>
+                    <div id="navbarAuthArea" class="ms-2"></div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="checkout-page content">
+            <div class="checkout-form">
+                <h2>Thông tin thanh toán</h2>
+                <form id="checkout-form" onsubmit="handleCheckout(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Họ</label>
+                            <input type="text" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Tên</label>
+                            <input type="text" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" id="address" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">Thành phố</label>
+                            <input type="text" id="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="district">Quận/Huyện</label>
+                            <input type="text" id="district" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Ghi chú</label>
+                        <textarea id="note" rows="3"></textarea>
+                    </div>
+                    <h3>Phương thức thanh toán</h3>
+                    <div class="payment-methods">
+                        <label class="payment-method">
+                            <input type="radio" name="payment" value="cod" checked>
+                            <span>Thanh toán khi nhận hàng (COD)</span>
+                        </label>
+                        <label class="payment-method">
+                            <input type="radio" name="payment" value="bank">
+                            <span>Chuyển khoản ngân hàng</span>
+                        </label>
+                        <label class="payment-method">
+                            <input type="radio" name="payment" value="momo">
+                            <span>Ví MoMo</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="place-order-btn">Đặt hàng</button>
+                </form>
+            </div>
+
+            <div class="order-summary">
+                <h3>Đơn hàng của bạn</h3>
+                <div id="order-items"></div>
+            </div>
+        </main>
+
+        <footer class="bg-dark text-white text-center py-3">
+            <p>© 2025 PC Store. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        function displayOrderSummary() {
+            const cart = getCart();
+            const orderItems = document.getElementById('order-items');
+            if (cart.length === 0) {
+                orderItems.innerHTML = '<p>Giỏ hàng trống.</p>';
+                return;
+            }
+            let subtotal = 0;
+            const itemsHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                return `
+                    <div class="order-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="item-info">
+                            <h4>${item.name}</h4>
+                            <div>Số lượng: ${item.quantity}</div>
+                            <div>${itemTotal.toLocaleString('vi-VN')} đ</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            const summaryHTML = `
+                ${itemsHTML}
+                <div class="summary-item">
+                    <span>Tạm tính:</span>
+                    <span>${subtotal.toLocaleString('vi-VN')} đ</span>
+                </div>
+                <div class="summary-item">
+                    <span>Phí vận chuyển:</span>
+                    <span>30,000 đ</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Tổng cộng:</span>
+                    <span>${(subtotal + 30000).toLocaleString('vi-VN')} đ</span>
+                </div>
+            `;
+            orderItems.innerHTML = summaryHTML;
+        }
+
+        function handleCheckout(event) {
+            event.preventDefault();
+            const cart = getCart();
+            if (cart.length === 0) {
+                alert('Giỏ hàng trống! Vui lòng thêm sản phẩm trước khi đặt hàng.');
+                return;
+            }
+            const order = {
+                items: cart,
+                customer: {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    district: document.getElementById('district').value,
+                    note: document.getElementById('note').value
+                },
+                payment: document.querySelector('input[name="payment"]:checked').value
+            };
+            console.log('Order submitted:', order); // For debugging; replace with backend call in production
+            saveCart([]); // Clear cart
+            alert('Đặt hàng thành công! Cảm ơn bạn đã mua hàng.');
+            window.location.href = 'home.html';
+        }
+
+        window.onload = function() {
+            updateUI();
+            displayOrderSummary();
+        };
+    </script>
+</body>
+</html>

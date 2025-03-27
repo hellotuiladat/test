@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Store - PC Gaming</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/jquery-3.7.1.min.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/PcStore.js"></script>
+    <style>
+        .signup-link {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .full-height {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="full-height">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">PC Store</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="home.html">Trang chủ</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="gamingPC.html">PC Gaming</a></li>
+                        <li class="nav-item"><a class="nav-link" href="cart.html">Giỏ hàng</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">Giới thiệu</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Liên hệ</a></li>
+                    </ul>
+                    <div id="navbarAuthArea" class="ms-2"></div>
+                </div>
+            </div>
+        </nav>
+
+        <header class="bg-primary text-white text-center py-5">
+            <h1>PC Gaming</h1>
+            <p>Cấu hình mạnh mẽ cho trải nghiệm chơi game đỉnh cao</p>
+        </header>
+
+        <section id="products" class="container my-5 content">
+            <h2 class="text-center mb-4">Danh sách PC Gaming</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="../img/pc01.webp" class="card-img-top" alt="PC văn phòng 01">
+                        <div class="card-body">
+                            <h5 class="card-title">Pc văn phòng 01</h5>
+                            <p class="card-text">Intel I5 10400F/ H510/ RAM 8GB/ SSD 256GB/ VGA GT 730</p>
+                            <button class="btn btn-outline-primary" onclick="addToCart({id: 201, name: 'Pc văn phòng 01', description: 'Intel I5 10400F/ H510/ RAM 8GB/ SSD 256GB/ VGA GT 730', image: '../img/pc01.webp', price: 4800000})">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="../img/pc02.jpg" class="card-img-top" alt="PC văn phòng 02">
+                        <div class="card-body">
+                            <h5 class="card-title">Pc văn phòng 02</h5>
+                            <p class="card-text">I5 10400/ H510/ 8G/ 240G SSD</p>
+                            <button class="btn btn-outline-primary" onclick="addToCart({id: 202, name: 'PC văn phòng 02', description: 'I5 10400/ H510/ 8G/ 240G SSD', image: '../img/pc02.jpg', price: 6000000})">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="bg-dark text-white text-center py-3">
+            <p>© 2025 PC Store. All Rights Reserved.</p>
+        </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Đăng Nhập</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-login" onsubmit="handleLogin(event)">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username:</label>
+                            <input type="text" class="form-control" id="username" placeholder="Username here">
+                            <span id="username-error" class="text-danger" style="min-height: 20px;"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password:</label>
+                            <input type="password" class="form-control" id="password" placeholder="Password here">
+                            <span id="password-error" class="text-danger" style="min-height: 20px;"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                        <p class="mt-2">Chưa có tài khoản? <span class="signup-link" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Đăng ký ngay</span></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="signupModalLabel">Đăng Ký</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form onsubmit="handleRegister(event)">
+                        <div class="mb-3">
+                            <label for="ustext">Username</label>
+                            <input type="text" name="ustext" id="ustext" placeholder="username" class="form-control" onblur="validateUsername()">
+                            <span id="errus" class="d-block text-danger" style="min-height: 20px;"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pw">Password</label>
+                            <input type="password" name="pw" id="pw" class="form-control" placeholder="password">
+                            <span id="errpw" class="d-block text-danger" style="min-height: 20px;"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pwc">Confirm Password</label>
+                            <input type="password" name="pwc" id="pwc" class="form-control" placeholder="confirm password">
+                            <span id="errpwc" class="d-block text-danger" style="min-height: 20px;"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mail">Email</label>
+                            <input type="email" name="mail" id="mail" class="form-control" placeholder="Example@gmail.com" onblur="kiemTraEmail()">
+                            <span id="errmail" class="d-block text-danger" style="min-height: 20px;"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            updateUI();
+        };
+    </script>
+</body>
+</html>
